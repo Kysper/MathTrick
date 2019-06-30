@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Math Magic</title>
+  </head>
+  <body>
+    <header id="header">
+      <h2 id="header-title">Math Magic</h2>
+    </header>
+    <p id="instructions">
+      Instructions: Type in a number between 1000 an 9999 and the computer will
+      guess the accumulative amount at the end of 5 rounds
+    </p>
+    <h3 id="turn-display"></h3>
+    <p id="finished-game"></p>
+    <form>
+      <input id="number" placeholder="Enter a number" /><br />
+      <button type="submit" id="submit-number">Submit</button>
+    </form>
+    <ul id="number-pos"></ul>
+    <div id="guessed-number"></div>
+    <script>
+      //Elements
+      const elements = {
+        inputNumber: document.getElementById("number"),
+        guessedNumber: document.getElementById("guessed-number"),
+        submitNumber: document.getElementById("submit-number"),
+        listNumbers: document.getElementById("number-pos"),
+        numberChoice: document.getElementById("number-choice"),
+        turnDisplay: document.getElementById("turn-display"),
+        finishTrick: document.getElementById("finished-game")
+      };
+
+      let rounds = 0;
+      let hasGuessed = false;
+      let num = 0;
+      let currentPlayer = 0;
+
+      function determineTurn() {
+        if (currentPlayer === 0) {
+          user();
+        } else if (currentPlayer === 1) {
+          computer();
+        }
+      }
+
+      elements.submitNumber.addEventListener("click", function(e) {
+        e.preventDefault();
+        num = elements.inputNumber.value;
+        if (num <= 9999 && num >= 1000) {
+          if (rounds <= 1) {
+            start();
+          } else {
+            determineTurn();
+          }
+        } else {
+          alert("Please type in a number between 1000 and 9999");
+        }
+        elements.inputNumber.value = "";
+      });
+      function start() {
+        if (rounds <= 1) {
+          currentPlayer = 0;
+          determineTurn();
+        } else {
+          determineTurn();
+        }
+        rounds++;
+      }
+      function user() {
+        elements.turnDisplay.textContent = "";
+        elements.turnDisplay.textContent = `It is the player's turn!`;
+        displayNum(num, null);
+      }
+
+      function computer() {
+        if (!hasGuessed) {
+          makeGuess(num);
+          hasGuessed = true;
+        }
+        elements.turnDisplay.textContent = "";
+        elements.turnDisplay.textContent = `It is the computer's turn!`;
+        let guess = 9999 - num;
+        displayNum(null, guess);
+        nextRound();
+      }
+
+      function nextRound() {
+        if (rounds <= 5) {
+          if (currentPlayer === 0) {
+            currentPlayer = 1;
+            rounds++;
+            determineTurn();
+          } else if (currentPlayer === 1) {
+            currentPlayer = 0;
+            determineTurn();
+            rounds++;
+          }
+        } else {
+          elements.finishTrick.textContent =
+            "Add them up and see that the numbers match the total that the computer guessed at the beginning!";
+        }
+      }
+
+      function displayNum(number, guess) {
+        if (currentPlayer === 0) {
+          let temp = number;
+          const html = `Player: ${temp}`;
+          let node = document.createElement("li");
+          node.append(html);
+          elements.listNumbers.appendChild(node);
+          temp = null;
+        } else if (currentPlayer === 1) {
+          let temp = guess;
+          elements.listNumbers.append(`Computer: ${temp}\n`);
+          temp = null;
+        }
+      }
+
+      function makeGuess(number) {
+        total = parseInt(number) + 20000 - 2;
+        if (total !== NaN) {
+          elements.guessedNumber.innerHTML = total;
+          total = 0;
+        }
+        elements.inputNumber.innerHTML = "";
+        return number;
+      }
+    </script>
+  </body>
+</html>
