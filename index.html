@@ -15,12 +15,13 @@
       guess the accumulative amount at the end of 5 rounds
     </p>
     <h3 id="turn-display"></h3>
-    <p id="finished-game"></p>
     <form>
       <input id="number" placeholder="Enter a number" /><br />
       <button type="submit" id="submit-number">Submit</button>
     </form>
-    <ul id="number-pos"></ul>
+    <ul id="player-choice"></ul>
+    <ul id="computer-choice"></ul>
+    <p id="finished-game"></p>
     <div id="guessed-number"></div>
     <script>
       //Elements
@@ -28,8 +29,8 @@
         inputNumber: document.getElementById("number"),
         guessedNumber: document.getElementById("guessed-number"),
         submitNumber: document.getElementById("submit-number"),
-        listNumbers: document.getElementById("number-pos"),
-        numberChoice: document.getElementById("number-choice"),
+        playerChoice: document.getElementById("player-choice"),
+        computerChoice: document.getElementById("computer-choice"),
         turnDisplay: document.getElementById("turn-display"),
         finishTrick: document.getElementById("finished-game")
       };
@@ -41,9 +42,13 @@
 
       function determineTurn() {
         if (currentPlayer === 0) {
-          user();
+          setTimeout(() => {
+            user();
+          }, 100);
         } else if (currentPlayer === 1) {
-          computer();
+          setTimeout(() => {
+            computer();
+          }, 100);
         }
       }
 
@@ -51,25 +56,12 @@
         e.preventDefault();
         num = elements.inputNumber.value;
         if (num <= 9999 && num >= 1000) {
-          if (rounds <= 1) {
-            start();
-          } else {
-            determineTurn();
-          }
+          nextRound();
         } else {
           alert("Please type in a number between 1000 and 9999");
         }
         elements.inputNumber.value = "";
       });
-      function start() {
-        if (rounds <= 1) {
-          currentPlayer = 0;
-          determineTurn();
-        } else {
-          determineTurn();
-        }
-        rounds++;
-      }
       function user() {
         elements.turnDisplay.textContent = "";
         elements.turnDisplay.textContent = `It is the player's turn!`;
@@ -81,28 +73,31 @@
           makeGuess(num);
           hasGuessed = true;
         }
-        elements.turnDisplay.textContent = "";
-        elements.turnDisplay.textContent = `It is the computer's turn!`;
-        let guess = 9999 - num;
-        displayNum(null, guess);
-        nextRound();
+        if (rounds > 1) {
+          elements.turnDisplay.textContent = "";
+          elements.turnDisplay.textContent = `It is the computer's turn!`;
+          let guess = 9999 - num;
+          displayNum(null, guess);
+        }
+        if (rounds <= 6) nextRound();
       }
 
       function nextRound() {
-        if (rounds <= 5) {
+        if (rounds <= 4) {
           if (currentPlayer === 0) {
             currentPlayer = 1;
-            rounds++;
             determineTurn();
           } else if (currentPlayer === 1) {
             currentPlayer = 0;
             determineTurn();
-            rounds++;
           }
         } else {
           elements.finishTrick.textContent =
             "Add them up and see that the numbers match the total that the computer guessed at the beginning!";
+          elements.inputNumber.disabled = true;
         }
+
+        rounds++;
       }
 
       function displayNum(number, guess) {
@@ -111,12 +106,17 @@
           const html = `Player: ${temp}`;
           let node = document.createElement("li");
           node.append(html);
-          elements.listNumbers.appendChild(node);
+          elements.playerChoice.appendChild(node);
           temp = null;
         } else if (currentPlayer === 1) {
           let temp = guess;
-          elements.listNumbers.append(`Computer: ${temp}\n`);
-          temp = null;
+          setTimeout(() => {
+            const html = `Computer: ${temp}`;
+            let node = document.createElement("li");
+            node.append(html);
+            elements.computerChoice.appendChild(node);
+            temp = null;
+          }, 500);
         }
       }
 
