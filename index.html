@@ -4,131 +4,38 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link href="style.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Russo+One&display=swap" rel="stylesheet">
     <title>Math Magic</title>
   </head>
   <body>
-    <header id="header">
-      <h2 id="header-title">Math Magic</h2>
-    </header>
+
+
+    <div id='top-container'>
+      <header id="header-title">Math Magic</header>
     <p id="instructions">
       Instructions: Type in a number between 1000 an 9999 and the computer will
       guess the accumulative amount at the end of 5 rounds
     </p>
     <h3 id="turn-display"></h3>
+    </div>
+
+
+    <div id='middle-container'>
     <form>
-      <input id="number" placeholder="Enter a number" /><br />
+      <input autocomplete="off" id="number" placeholder="Enter a number" />
       <button type="submit" id="submit-number">Submit</button>
     </form>
+    </div>
+
+
+    <div id='bottom-container'>
     <ul id="player-choice"></ul>
     <ul id="computer-choice"></ul>
-    <p id="finished-game"></p>
     <div id="guessed-number"></div>
-    <script>
-      //Elements
-      const elements = {
-        inputNumber: document.getElementById("number"),
-        guessedNumber: document.getElementById("guessed-number"),
-        submitNumber: document.getElementById("submit-number"),
-        playerChoice: document.getElementById("player-choice"),
-        computerChoice: document.getElementById("computer-choice"),
-        turnDisplay: document.getElementById("turn-display"),
-        finishTrick: document.getElementById("finished-game")
-      };
-
-      let rounds = 0;
-      let hasGuessed = false;
-      let num = 0;
-      let currentPlayer = 0;
-
-      function determineTurn() {
-        if (currentPlayer === 0) {
-          setTimeout(() => {
-            user();
-          }, 100);
-        } else if (currentPlayer === 1) {
-          setTimeout(() => {
-            computer();
-          }, 100);
-        }
-      }
-
-      elements.submitNumber.addEventListener("click", function(e) {
-        e.preventDefault();
-        num = elements.inputNumber.value;
-        if (num <= 9999 && num >= 1000) {
-          nextRound();
-        } else {
-          alert("Please type in a number between 1000 and 9999");
-        }
-        elements.inputNumber.value = "";
-      });
-      function user() {
-        elements.turnDisplay.textContent = "";
-        elements.turnDisplay.textContent = `It is the player's turn!`;
-        displayNum(num, null);
-      }
-
-      function computer() {
-        if (!hasGuessed) {
-          makeGuess(num);
-          hasGuessed = true;
-        }
-        if (rounds > 1) {
-          elements.turnDisplay.textContent = "";
-          elements.turnDisplay.textContent = `It is the computer's turn!`;
-          let guess = 9999 - num;
-          displayNum(null, guess);
-        }
-        if (rounds <= 6) nextRound();
-      }
-
-      function nextRound() {
-        if (rounds <= 4) {
-          if (currentPlayer === 0) {
-            currentPlayer = 1;
-            determineTurn();
-          } else if (currentPlayer === 1) {
-            currentPlayer = 0;
-            determineTurn();
-          }
-        } else {
-          elements.finishTrick.textContent =
-            "Add them up and see that the numbers match the total that the computer guessed at the beginning!";
-          elements.inputNumber.disabled = true;
-        }
-
-        rounds++;
-      }
-
-      function displayNum(number, guess) {
-        if (currentPlayer === 0) {
-          let temp = number;
-          const html = `Player: ${temp}`;
-          let node = document.createElement("li");
-          node.append(html);
-          elements.playerChoice.appendChild(node);
-          temp = null;
-        } else if (currentPlayer === 1) {
-          let temp = guess;
-          setTimeout(() => {
-            const html = `Computer: ${temp}`;
-            let node = document.createElement("li");
-            node.append(html);
-            elements.computerChoice.appendChild(node);
-            temp = null;
-          }, 500);
-        }
-      }
-
-      function makeGuess(number) {
-        total = parseInt(number) + 20000 - 2;
-        if (total !== NaN) {
-          elements.guessedNumber.innerHTML = total;
-          total = 0;
-        }
-        elements.inputNumber.innerHTML = "";
-        return number;
-      }
-    </script>
+    <div id='game-finished'></div>
+    <p id="finished-game"></p>
+    </div>
+    <script src='./game.js'></script>
   </body>
 </html>
