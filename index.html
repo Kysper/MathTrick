@@ -4,38 +4,50 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link href="style.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Russo+One&display=swap" rel="stylesheet">
+    <link href="style.css" rel="stylesheet" type="text/css" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Russo+One&display=swap"
+      rel="stylesheet"
+    />
     <title>Math Magic</title>
   </head>
   <body>
-
-
-    <div id='top-container'>
+    <div id="top-container">
       <header id="header-title">Math Magic</header>
-    <p id="instructions">
-      Instructions: Type in a number between 1000 an 9999 and the computer will
-      guess the accumulative amount at the end of 5 rounds
-    </p>
-    <h3 id="turn-display"></h3>
+      <p id="instructions">
+        Instructions: Type in a number between 1000 an 9999 and the computer
+        will guess the accumulative amount at the end of 5 rounds
+      </p>
+      <h3 id="turn-display"></h3>
     </div>
 
-
-    <div id='middle-container'>
-    <form>
-      <input autocomplete="off" id="number" placeholder="Enter a number" />
-      <button type="submit" id="submit-number">Submit</button>
-    </form>
+    <div id="middle-container">
+      <div id="guessed-container">
+        <div id="guessed-left-side">
+          <h3 id="guessed-info">Current Number</h3>
+          <div id="guessed-match"></div>
+        </div>
+        <div id="guessed-right-side">
+          <h3 id="guessed-info">Number Guessed</h3>
+          <div id="guessed-number"></div>
+        </div>
+      </div>
+      <form>
+        <input autocomplete="off" id="number" placeholder="Enter a number" />
+        <button type="submit" id="submit-number">Submit</button>
+      </form>
     </div>
 
-
-    <div id='bottom-container'>
-    <ul id="player-choice"></ul>
-    <ul id="computer-choice"></ul>
-    <div id="guessed-number"></div>
-    <div id='game-finished'></div>
-    <p id="finished-game"></p>
+    <div id="bottom-container">
+      <div id="display-nums">
+        <ul id="player-choice"></ul>
+        <ul id="computer-choice"></ul>
+      </div>
+      <div id="game-finished"></div>
+      <div id="finished-game">
+        <button id="play-again">Yes</button>
+      </div>
     </div>
-    <script src='./game.js'></script>
+    <script src="./game.js"></script>
   </body>
 </html>
