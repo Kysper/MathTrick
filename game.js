@@ -7,7 +7,6 @@ const elements = {
   playerChoice: document.getElementById("player-choice"),
   computerChoice: document.getElementById("computer-choice"),
   turnDisplay: document.getElementById("turn-display"),
-  finishTrick: document.getElementById("finished-game"),
   gameFinish: document.getElementById("game-finished"),
   btn: document.getElementsByClassName("btn"),
   playAgain: document.getElementById("play-again"),
@@ -61,8 +60,7 @@ function computer() {
     elements.turnDisplay.textContent = `The computer is making a guess...`;
     setTimeout(() => {
       makeGuess(num);
-    }, 400);
-
+    }, 500);
     hasGuessed = true;
   }
   if (rounds > 1 && rounds <= 5) {
@@ -70,18 +68,16 @@ function computer() {
     let guess = 9999 - num;
     setTimeout(() => {
       displayNum(0, guess);
-    }, 400);
+    }, 500);
     guessArr.push(guess);
   }
   if (rounds >= 5) {
     elements.inputNumber.disabled = true;
-    elements.finishTrick.innerText =
-      "Add them up and see that the numbers match the total that the computer guessed at the beginning!";
     finishGame();
   }
   setTimeout(() => {
     nextRound();
-  }, 400);
+  }, 600);
 }
 
 function nextRound() {
